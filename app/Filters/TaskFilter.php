@@ -22,27 +22,22 @@ class TaskFilter
 
     public function apply(Builder $query): Builder
     {
-        // 🔹 filtr po tytule
         if (!empty($this->searchTitle)) {
             $query->where('title', 'like', '%' . $this->searchTitle . '%');
         }
 
-        // 🔹 filtr po opisie
         if (!empty($this->searchDescription)) {
             $query->where('description', 'like', '%' . $this->searchDescription . '%');
         }
 
-        // 🔹 filtr po statusie
         if (!empty($this->status)) {
             $query->where('status_task_id', $this->status);
         }
 
-        // 🔹 filtr po dacie
         if ($this->dueDate) {
             try {
                 $query->whereDate('due_date', \Carbon\Carbon::parse($this->dueDate));
             } catch (\Exception $e) {
-                // Ignorujemy niepoprawny format
             }
         }
 
